@@ -17,8 +17,10 @@
 
 DEST = libfusezip.a
 PKG_CONFIG ?= pkg-config
-DEPS = fuse libzip icu-uc icu-i18n
+DEPS = fuse libzip
 CXXFLAGS := $(shell $(PKG_CONFIG) --cflags $(DEPS))
+CXXFLAGS += -I"$(SYSROOT)/usr/include/icu-chrome/common"
+CXXFLAGS += -I"$(SYSROOT)/usr/include/icu-chrome/i18n"
 CXXFLAGS += -Wall -Wextra -Wno-sign-compare -Wno-missing-field-initializers -pedantic -std=c++20
 ifeq ($(DEBUG), 1)
 CXXFLAGS += -O0 -g

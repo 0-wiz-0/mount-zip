@@ -20,9 +20,9 @@ prefix = /usr
 exec_prefix = $(prefix)
 bindir = $(exec_prefix)/bin
 PKG_CONFIG ?= pkg-config
-DEPS = fuse libzip icu-uc icu-i18n
+DEPS = fuse libzip
 LIBS := -Llib -lfusezip $(shell $(PKG_CONFIG) --libs $(DEPS))
-LIBS += -Llib -lfusezip
+LIBS += -Llib -lfusezip -licui18n-chrome -licuuc-chrome
 CXXFLAGS := $(shell $(PKG_CONFIG) --cflags $(DEPS))
 CXXFLAGS += -Wall -Wextra -Wno-sign-compare -Wno-missing-field-initializers -pedantic -std=c++20
 ifeq ($(DEBUG), 1)
@@ -64,9 +64,8 @@ all-clean:
 $(MAN): README.md
 	pandoc $< -s -t man -o $@
 
-install: all doc
+install: all
 	$(INSTALL_PROGRAM) "$(DEST)" "$(DESTDIR)$(bindir)/$(DEST)"
-	$(INSTALL_DATA) $(MAN) "$(DESTDIR)$(MANDIR)/$(MAN)"
 
 install-strip:
 	$(MAKE) INSTALL_PROGRAM='$(INSTALL_PROGRAM) -s' install

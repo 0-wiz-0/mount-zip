@@ -296,6 +296,9 @@ void Tree::BuildTree() {
       need_prefix_ = name.starts_with('/') || name.starts_with("../");
   }
 
+  // Initialize ICU library and ensure it will be cleaned up.
+  const IcuGuard guard("/opt/google/chrome/icudtl.dat");
+
   // Detect filename encoding.
   std::string encoding;
   if (opts_.encoding)
